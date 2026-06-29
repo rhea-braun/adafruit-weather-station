@@ -1,0 +1,6 @@
+# Ignore local secrets configuration
+settings.toml
+
+# Ignore mac/windows system artifacts
+.DS_Store
+Thumbs.db
