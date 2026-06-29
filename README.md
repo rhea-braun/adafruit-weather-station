@@ -28,20 +28,21 @@ Ensure your MagTag is flashed with the latest version of **CircuitPython (v8.x o
 Clone this repository to your local computer:
 ```bash
 git clone [https://github.com/YOUR_USERNAME/magtag-weather-station.git](https://github.com/YOUR_USERNAME/magtag-weather-station.git)
-
+```
 ### 3. Configure Your Environment Secrets
 To keep your Wi-Fi credentials and exact location secure, this project uses a settings.toml configuration file.
 
 Create a file named settings.toml in the root directory of your MagTag (CIRCUITPY drive).
 
 Copy the contents of settings.example.toml and fill in your details:
-
+```
 Ini, TOML
 CIRCUITPY_WIFI_SSID = "Your_WiFi_Name"
 CIRCUITPY_WIFI_PASSWORD = "Your_WiFi_Password"
 LATITUDE = "40.7128"
 LONGITUDE = "-74.0060"
 TIMEZONE = "America/New_York"
+```
 Note: The .gitignore file in this repository is pre-configured to ensure your settings.toml file is never tracked or uploaded to GitHub.
 
 ### 4. Deploy the Code
@@ -49,14 +50,10 @@ Copy the code.py file from this repository directly onto the root of your MagTag
 
 ## How it Works: Deep Sleep Architecture
 To maximize battery efficiency, the code avoids standard while True: execution loops. Instead, it runs as a linear script:
-
-Wake Up: The board boots up and checks what woke it (Timer Alarm vs. Physical Button Pin Alarm).
-
-Fetch & Render: Connects to Wi-Fi, streams JSON data from Open-Meteo, updates the e-ink layout buffers, and triggers a hardware screen refresh.
-
-De-init Peripherals: Releases control of physical pins to resolve hardware conflicts.
-
-Deep Sleep: Sets a 15-minute countdown timer, initializes an interrupt listener on BUTTON_A, and completely shuts down the microprocessor to achieve near-zero battery draw.
+- Wake Up: The board boots up and checks what woke it (Timer Alarm vs. Physical Button Pin Alarm).
+- Fetch & Render: Connects to Wi-Fi, streams JSON data from Open-Meteo, updates the e-ink layout buffers, and triggers a hardware screen refresh.
+- De-init Peripherals: Releases control of physical pins to resolve hardware conflicts.
+- Deep Sleep: Sets a 15-minute countdown timer, initializes an interrupt listener on BUTTON_A, and completely shuts down the microprocessor to achieve near-zero battery draw.
 
 ## Data Provenance
 Weather data is dynamically sourced from Open-Meteo's Open-Data API. It automatically aggregates and cross-references high-resolution atmospheric models from global agencies including NOAA (GFS/HRRR) and ECMWF (IFS) based on your exact coordinates.
